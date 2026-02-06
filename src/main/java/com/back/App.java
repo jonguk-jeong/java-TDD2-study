@@ -1,6 +1,7 @@
 package com.back;
 
 import com.back.WiseSaying.controller.WiseSayingController;
+import com.back.global.AppContext;
 import com.back.system.controller.SystemController;
 
 import java.util.Scanner;
@@ -11,11 +12,11 @@ public class App {
     private WiseSayingController wiseSayingController;
     private SystemController systemController;
 
-    public App(Scanner sc) {
+    public App() {
 //        this.scanner = new Scanner(System.in);  이거는 실제 입력을 해야만 함
-        this.sc = sc; // 일단은 테스트 케이스 돌리기 위한 용도로 만듬
-        this.wiseSayingController = new WiseSayingController(sc);
-        this.systemController = new SystemController();
+        this.sc = AppContext.sc;
+        wiseSayingController= AppContext.wiseSayingController;
+        systemController = AppContext.systemController;
     }
 
     public void run() {

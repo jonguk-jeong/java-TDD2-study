@@ -2,6 +2,7 @@ package com.back.WiseSaying.controller;
 
 import com.back.WiseSaying.entity.WiseSaying;
 import com.back.WiseSaying.service.WiseSayingService;
+import com.back.global.AppContext;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,8 +13,8 @@ public class WiseSayingController {
     private WiseSayingService wiseSayingService;
 
     public WiseSayingController(Scanner sc) {
-        this.sc = sc;
-        this.wiseSayingService = new WiseSayingService();
+        this.sc = AppContext.sc;
+        this.wiseSayingService = AppContext.wiseSayingService;
     }
 
     public void actionAdd() {
