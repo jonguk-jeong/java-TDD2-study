@@ -1,3 +1,5 @@
+package test;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestUtilTest {
     @Test
-    @DisplayName("TestUtil.genScanner()")
+    @DisplayName("test.TestUtil.genScanner()")
     void t1() {
         Scanner scanner = TestUtil.genScanner("""
                 등록
@@ -26,7 +28,7 @@ public class TestUtilTest {
     }
 
     @Test
-    @DisplayName("TestUtil.setOutByteArray()")
+    @DisplayName("test.TestUtil.setOutByteArray()")
     void t2() throws Exception{
         // byteArrayOutputStream 여기에 내 모든 입력 쌓임
         ByteArrayOutputStream byteArrayOutputStream = TestUtil.setOutByteArray(); // 출력을 내가 잘 돌려서 받아 올 수 있나 테스트

@@ -1,3 +1,5 @@
+package com.back.WiseSaying.entity;
+
 public class WiseSaying {
 
     private int id;

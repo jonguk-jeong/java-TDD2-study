@@ -1,3 +1,8 @@
+package app;
+
+import com.back.App;
+import test.TestUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
@@ -6,7 +11,7 @@ public class AppTestRunner {
         Scanner sc = TestUtil.genScanner(input + "\n종료"); // scanner를 받아오기
 
         ByteArrayOutputStream outputStream = TestUtil.setOutByteArray();    // 프로그램 돌린게 여기에 쌓임
-        new App(sc).run();                                                    // AppTest
+        new App(sc).run();                                                    // app.AppTest
 
         return outputStream.toString();
     }
