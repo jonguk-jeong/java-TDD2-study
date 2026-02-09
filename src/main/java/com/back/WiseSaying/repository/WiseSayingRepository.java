@@ -18,10 +18,6 @@ public class WiseSayingRepository {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc() {
-        return wiseSayings.reversed();
-    }
-
     public boolean delete(int id) {
         return wiseSayings.removeIf(wiseSaying -> wiseSaying.getId() == id);
     }
@@ -34,17 +30,32 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-    public List<WiseSaying> findByContentKeywordOrderByDesc(String kw) {
-        return wiseSayings.stream()
+    public List<WiseSaying> findListDesc(String kw, int page, int pageSize) {
+        return wiseSayings.reversed()
+                .stream()
+                .skip((page - 1) * pageSize)
                 .filter(w -> w.getSaying().contains(kw))
-                .toList()
-                .reversed();
+                .limit(pageSize)
+                .toList();
     }
 
-    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String kw) {
-        return wiseSayings.stream()
+    public List<WiseSaying> findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
+        return wiseSayings.reversed()
+                .stream()
+                .skip((page - 1) * pageSize)
+                .filter(w -> w.getSaying().contains(kw))
+                .limit(pageSize)
+                .toList();
+
+    }
+
+    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
+        return wiseSayings.reversed()
+                .stream()
+                .skip((page - 1) * pageSize)
                 .filter(w -> w.getAuthor().contains(kw))
-                .toList()
-                .reversed();
+                .limit(pageSize)
+                .toList();
+
     }
 }

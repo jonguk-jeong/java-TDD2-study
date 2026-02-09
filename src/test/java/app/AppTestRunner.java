@@ -14,7 +14,15 @@ public class AppTestRunner {
         ByteArrayOutputStream outputStream = TestUtil.setOutByteArray();    // 프로그램 돌린게 여기에 쌓임
 
         AppContext.init(sc);
-        new App().run();                                               // app.AppTest
+        new App().run();
+
+        try {
+            TestUtil.clearSetOutToByteArray(outputStream);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // app.AppTest
 
         return outputStream.toString();
     }

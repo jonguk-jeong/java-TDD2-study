@@ -20,16 +20,16 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc(String kw, String kwt) {
-         return switch (kwt) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw);
-            default -> wiseSayingRepository.findListDesc(); // 둘다 아니면 전부 주기
-        };
-    }
-
     public boolean delete(int id) {
         return wiseSayingRepository.delete(id);
+    }
+
+    public List<WiseSaying> findListDesc(String kw, String kwt, int page, int pageSize) {
+        return switch (kwt) {
+            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw, page, pageSize);
+            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw, page, pageSize);
+            default -> wiseSayingRepository.findListDesc(kw, page, pageSize); // 둘다 아니면 전부 주기
+        };
     }
 
     public WiseSaying findByIdOrNull(int id) {
