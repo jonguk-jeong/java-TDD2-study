@@ -1,11 +1,25 @@
 package com.back.standard.util;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class UtilFileTest {
+
+    // 폴더 생성
+    @BeforeAll
+    static void beforeAll() {
+        Util.file.mkdir("temp");
+    }
+
+    // 폴더 삭제
+    @AfterAll
+    static void afterAll() {
+        Util.file.rmdir("temp");
+    }
 
     @Test
     @DisplayName("파일 생성")
@@ -22,6 +36,7 @@ public class UtilFileTest {
 
         assertThat(rst).isTrue();
 
+        // 파일 삭제
         Util.file.delete(filePath);
     }
 
@@ -56,5 +71,23 @@ public class UtilFileTest {
         // then
         assertThat(content).isEqualTo("hello world");
 
+    }
+
+    @Test
+    @DisplayName("파일 생성 - 경로에 폴더가 없는 경우")
+    void t4() {
+
+        // given
+        String filePath = "temp/temp/test.txt";
+
+        // when
+        Util.file.touch(filePath); // 파일 생성
+
+        // then
+        boolean rst = Util.file.exists(filePath);
+        assertThat(rst).isTrue();
+
+        // 테스트가 끝나면 파일 삭제
+        Util.file.delete(filePath);
     }
 }
