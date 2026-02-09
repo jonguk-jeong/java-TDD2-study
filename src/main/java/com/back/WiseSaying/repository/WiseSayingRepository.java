@@ -1,5 +1,6 @@
 package com.back.WiseSaying.repository;
 
+import com.back.WiseSaying.dto.PageDto;
 import com.back.WiseSaying.entity.WiseSaying;
 
 import java.util.ArrayList;
@@ -30,32 +31,51 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-    public List<WiseSaying> findListDesc(String kw, int page, int pageSize) {
-        return wiseSayings.reversed()
-                .stream()
-                .skip((page - 1) * pageSize)
-                .filter(w -> w.getSaying().contains(kw))
-                .limit(pageSize)
-                .toList();
-    }
+    public PageDto findListDesc(int page, int pageSize) {
+        int totalCount = wiseSayings.size();
 
-    public List<WiseSaying> findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
-        return wiseSayings.reversed()
+        List<WiseSaying> content = wiseSayings.reversed()
                 .stream()
                 .skip((page - 1) * pageSize)
-                .filter(w -> w.getSaying().contains(kw))
                 .limit(pageSize)
                 .toList();
 
+        return new PageDto(page, pageSize, totalCount, content);
     }
 
-    public List<WiseSaying> findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
-        return wiseSayings.reversed()
+    public PageDto findByContentKeywordOrderByDesc(String kw, int page, int pageSize) {
+
+        int totalCount = wiseSayings
                 .stream()
+                .filter(w -> w.getSaying().contains(kw))
+                .toList()
+                .size();
+
+        List<WiseSaying> content = wiseSayings.reversed()
+                .stream()
+                .filter(w -> w.getSaying().contains(kw))
                 .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .toList();
+
+        return new PageDto(page, pageSize, totalCount, content);
+    }
+
+    public PageDto findByAuthorKeywordOrderByDesc(String kw, int page, int pageSize) {
+
+        int totalCount = wiseSayings
+                .stream()
                 .filter(w -> w.getAuthor().contains(kw))
+                .toList()
+                .size();
+
+        List<WiseSaying> content = wiseSayings.reversed()
+                .stream()
+                .filter(w -> w.getAuthor().contains(kw))
+                .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
 
+        return new PageDto(page, pageSize, totalCount, content);
     }
 }

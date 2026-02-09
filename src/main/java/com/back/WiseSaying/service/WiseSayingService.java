@@ -1,10 +1,9 @@
 package com.back.WiseSaying.service;
 
+import com.back.WiseSaying.dto.PageDto;
 import com.back.WiseSaying.entity.WiseSaying;
 import com.back.WiseSaying.repository.WiseSayingRepository;
 import com.back.global.AppContext;
-
-import java.util.List;
 
 public class WiseSayingService {
     private WiseSayingRepository wiseSayingRepository;
@@ -24,11 +23,11 @@ public class WiseSayingService {
         return wiseSayingRepository.delete(id);
     }
 
-    public List<WiseSaying> findListDesc(String kw, String kwt, int page, int pageSize) {
+    public PageDto findListDesc(String kw, String kwt, int page, int pageSize) {
         return switch (kwt) {
             case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw, page, pageSize);
             case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw, page, pageSize);
-            default -> wiseSayingRepository.findListDesc(kw, page, pageSize); // 둘다 아니면 전부 주기
+            default -> wiseSayingRepository.findListDesc(page, pageSize); // 둘다 아니면 전부 주기
         };
     }
 
