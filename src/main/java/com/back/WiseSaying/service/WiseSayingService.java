@@ -20,8 +20,12 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc() {
-        return wiseSayingRepository.findListDesc();
+    public List<WiseSaying> findListDesc(String kw, String kwt) {
+         return switch (kwt) {
+            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw);
+            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw);
+            default -> wiseSayingRepository.findListDesc(); // 둘다 아니면 전부 주기
+        };
     }
 
     public boolean delete(int id) {

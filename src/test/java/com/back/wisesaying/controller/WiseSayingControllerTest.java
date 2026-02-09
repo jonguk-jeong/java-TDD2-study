@@ -144,4 +144,60 @@ public class WiseSayingControllerTest {
                 .contains("1 / 소크라테스 / 너 자신을 알라");
 
     }
+
+    @Test
+    @DisplayName("목록?keywordType=content&keyword=과거")
+    void t10() {
+        String out = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                과거에 집착하지 마라.
+                작자미상
+                목록?keywordType=content&keyword=과거
+                """);
+
+        assertThat(out)
+                .doesNotContain("1 / 작자미상 / 현재를 사랑하라.")
+                .contains("2 / 작자미상 / 과거에 집착하지 마라.");
+    }
+
+    // t11 → content로 없는 키워드를 넣었을때 잘 되는가
+    @Test
+    @DisplayName("목록?keywordType=content&keyword=작자")
+    void t11() {
+        String out = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                과거에 집착하지 마라.
+                작자미상
+                목록?keywordType=content&keyword=작자
+                """);
+
+        assertThat(out)
+                .doesNotContain("1 / 작자미상 / 현재를 사랑하라.")
+                .doesNotContain("2 / 작자미상 / 과거에 집착하지 마라.");
+    }
+
+    // t12 → 핵심 keywordType을 author로 바꿔도 잘 작동하나?
+    @Test
+    @DisplayName("목록?keywordType=author&keyword=작자")
+    void t12() {
+        String out = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                너 자신을 알라
+                소크라테스
+                목록?keywordType=author&keyword=작자
+                """);
+
+        assertThat(out)
+                .contains("1 / 작자미상 / 현재를 사랑하라.")
+                .doesNotContain("2 / 소크라테스 / 너 자신을 알라");
+    }
 }
