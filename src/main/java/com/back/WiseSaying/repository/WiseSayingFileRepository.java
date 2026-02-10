@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class WiseSayingFileRepository {
+
+public class WiseSayingFileRepository implements WiseSayingRepository{
 
     public WiseSaying save(WiseSaying wiseSaying) {
 
@@ -20,7 +21,7 @@ public class WiseSayingFileRepository {
             wiseSaying.setId(lastId);
             Map<String, Object> wiseSayingMap = wiseSaying.toMap();
             String jsonStr = Util.json.toString(wiseSayingMap);
-            Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), jsonStr);
+            Util.file.set("%s/%d.json".formatted(getDbPath(), wiseSaying.getId()), jsonStr);
 
             return wiseSaying;
         }
@@ -31,8 +32,8 @@ public class WiseSayingFileRepository {
         return wiseSaying;
     }
 
-    public void delete(WiseSaying wiseSaying1) {
-        Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
+    public boolean delete(WiseSaying wiseSaying1) {
+        return Util.file.delete("%s/%d.json".formatted(getDbPath(), wiseSaying1.getId()));
     }
 
     private int getLastId() {
@@ -53,14 +54,24 @@ public class WiseSayingFileRepository {
         WiseSaying ws = WiseSaying.fromMap(map);
 
         return Optional.of(ws);
+
     }
 
     public void clear() {
-        Util.file.delete("%s".formatted(getDbPath()));
+        Util.file.delete(getDbPath());
     }
 
-    public String getDbPath() {
+    private String getDbPath() {
         return "db/wiseSaying";
+    }
+
+    public PageDto findAll(int page, int pageSize) {
+        List<WiseSaying> filteredContent = findAll().stream()
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .toList();
+        int totalCount = findAll().size();
+        return new PageDto(page, pageSize, totalCount, filteredContent);
     }
 
     public List<WiseSaying> findAll() {

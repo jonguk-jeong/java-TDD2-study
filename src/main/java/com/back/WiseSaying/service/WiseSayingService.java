@@ -5,11 +5,14 @@ import com.back.WiseSaying.entity.WiseSaying;
 import com.back.WiseSaying.repository.WiseSayingRepository;
 import com.back.global.AppContext;
 
+import java.util.Optional;
+
 public class WiseSayingService {
+
     private WiseSayingRepository wiseSayingRepository;
 
     public WiseSayingService() {
-        this.wiseSayingRepository = AppContext.wiseSayingRepository;
+        this.wiseSayingRepository = AppContext.wiseSayingFileRepository;
     }
 
     public WiseSaying write(String content, String author) {
@@ -20,19 +23,11 @@ public class WiseSayingService {
     }
 
     public boolean delete(int id) {
-        return wiseSayingRepository.delete(id);
-    }
-
-    public PageDto findListDesc(String kw, String kwt, int page, int pageSize) {
-        return switch (kwt) {
-            case "content" -> wiseSayingRepository.findByContentKeywordOrderByDesc(kw, page, pageSize);
-            case "author" -> wiseSayingRepository.findByAuthorKeywordOrderByDesc(kw, page, pageSize);
-            default -> wiseSayingRepository.findListDesc(page, pageSize); // 둘다 아니면 전부 주기
-        };
-    }
-
-    public WiseSaying findByIdOrNull(int id) {
-        return wiseSayingRepository.findByIdOrNull(id);
+        Optional<WiseSaying> wiseSayingOp = wiseSayingRepository.findById(id);
+        if(wiseSayingOp.isEmpty()) {
+            return false;
+        }
+        return wiseSayingRepository.delete(wiseSayingOp.get());
     }
 
     public void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
@@ -42,4 +37,17 @@ public class WiseSayingService {
 
         wiseSayingRepository.save(wiseSaying);
     }
+
+    public PageDto findListDesc(String kw, String kwt, int page, int pageSize) {
+        return switch (kwt) {
+            case "content" -> wiseSayingRepository.findByContentContainingDesc(kw, page, pageSize);
+            case "author" -> wiseSayingRepository.findByContentContainingDesc(kw, page, pageSize);
+            default -> wiseSayingRepository.findAll(page, pageSize);
+        };
+    }
+
+    public WiseSaying findByIdOrNull(int id) {
+        return wiseSayingRepository.findById(id).orElse(null);
+    }
+
 }
