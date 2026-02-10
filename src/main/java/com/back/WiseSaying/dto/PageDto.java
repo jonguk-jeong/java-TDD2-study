@@ -9,9 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class PageDto {
-    private int page;
-    private int pageSize;
-    private int totalCount;
+    private int page;   // 현재 페이지
+    private int pageSize;   // 페이지당 갯수
+    private int totalCount; // 전체 페이지 수
     private List<WiseSaying> content;
 
     // 올림 해야함
