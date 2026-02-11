@@ -1,6 +1,7 @@
 package app;
 
 import com.back.App;
+import com.back.global.AppConfig;
 import com.back.global.AppContext;
 import test.TestUtil;
 
@@ -13,6 +14,7 @@ public class AppTestRunner {
 
         ByteArrayOutputStream outputStream = TestUtil.setOutByteArray();    // 프로그램 돌린게 여기에 쌓임
 
+        AppConfig.setTestMode();
         AppContext.init(sc, false);
         new App().run();
 

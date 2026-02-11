@@ -27,7 +27,7 @@ public class App {
 
         while (true) {
 
-            System.out.println("명령) ");
+            System.out.print("명령) ");
             String cmd = sc.nextLine();
 
             Rq rq = new Rq(cmd);

@@ -30,6 +30,6 @@ public class AppContext {
     }
 
     public static void init() {
-        init(new Scanner(System.in), false);
+        init(new Scanner(System.in), true);
     }
 }
