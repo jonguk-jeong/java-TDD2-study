@@ -1,4 +1,4 @@
-package com.back.wisesaying.controller.repository;
+package com.back.wisesaying.repository;
 
 import com.back.WiseSaying.dto.PageDto;
 import com.back.WiseSaying.entity.WiseSaying;

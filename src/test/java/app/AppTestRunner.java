@@ -13,7 +13,7 @@ public class AppTestRunner {
 
         ByteArrayOutputStream outputStream = TestUtil.setOutByteArray();    // 프로그램 돌린게 여기에 쌓임
 
-        AppContext.init(sc);
+        AppContext.init(sc, false);
         new App().run();
 
         try {
